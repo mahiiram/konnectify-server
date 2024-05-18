@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-imagerouter.post('/image', upload.single('image'), async (req, res) => {
+imagerouter.post('/upload', upload.single('image'), async (req, res) => {
   try {
     const user = await Usermodel.findById(req.user.id);
     if (!user) {
@@ -30,7 +30,7 @@ imagerouter.post('/image', upload.single('image'), async (req, res) => {
       .jpeg({ quality: 90 })
       .toBuffer();
     const imagePath = 'Public/images' + req.file.filename;
-    
+
     await fs.promises.writeFile(imagePath, resizedImage);
 
     user.Image = imagePath;
